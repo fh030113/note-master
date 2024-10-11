@@ -18,9 +18,9 @@ package net.micode.notes.data;
 // 导入所需的类
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.Data;
-import android.telephony.PhoneNumberUtils;
+import android.provider.ContactsContract.CommonDataKinds.Phone;// 导入电话相关常量
+import android.provider.ContactsContract.Data;// 导入数据相关常量
+import android.telephony.PhoneNumberUtils;// 导入电话号码工具类
 import android.util.Log;
 
 import java.util.HashMap;

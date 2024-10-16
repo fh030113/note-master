@@ -61,6 +61,44 @@ public class Notes {
      */
     public static final Uri CONTENT_DATA_URI = Uri.parse("content://" + AUTHORITY + "/data");
 
+
+    // 新增：删除笔记的方法
+    public static void deleteNote(Context context, long noteId) {
+        Uri noteUri = Uri.withAppendedPath(CONTENT_NOTE_URI, String.valueOf(noteId));
+        context.getContentResolver().delete(noteUri, null, null);
+    }
+
+    // 新增：更新笔记的方法
+    public static void updateNote(Context context, long noteId, ContentValues values) {
+        Uri noteUri = Uri.withAppendedPath(CONTENT_NOTE_URI, String.valueOf(noteId));
+        context.getContentResolver().update(noteUri, values, null, null);
+    }
+
+    // 新增：搜索笔记的方法
+    public static *** searchNotes(Context context, String query) {
+        Uri searchUri = Uri.parse(CONTENT_NOTE_URI + "?search=" + Uri.encode(query));
+        return context.getContentResolver().query(searchUri, null, null, null, null);
+    }
+
+    // 新增：为笔记添加标签的方法
+    public static void addTagToNote(Context context, long noteId, String tag) {
+        // 假设有一个标签表，插入标签
+        ContentValues values = new ContentValues();
+        values.put("note_id", noteId);
+        values.put("tag", tag);
+        context.getContentResolver().insert(Uri.parse("content://" + AUTHORITY + "/tags"), values);
+    }
+
+    // 新增：共享笔记的方法
+    public static void shareNote(Context context, long noteId) {
+        Uri noteUri = Uri.withAppendedPath(CONTENT_NOTE_URI, String.valueOf(noteId));
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, noteUri);
+        context.startActivity(Intent.createChooser(shareIntent, "Share Note"));
+    }
+}
+
     public interface NoteColumns {
         /**
          * The unique ID for a row
